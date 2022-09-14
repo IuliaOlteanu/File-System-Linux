@@ -1,0 +1,50 @@
+//TEMA 1 IOCLA
+Olteanu Iulia , 324CC
+
+Am adaugat in structura Dir doi contori:un contor pentru numararea fisierelor si altul pentru directoare.
+
+Pentru functia touch , am alocat memorie pentru un nou nod de tip File si l-am adaugat la finalul listei de fisiere.
+Daca directorul nu avea niciun fisier (lung_fisiere=0) , am adaugat noul fisier : parent->head_children_files = nou
+De asemenea , am verificat daca exista deja un fisier sau director cu acest nume prin parcurgerea listei de fisiere ,
+afisand mesajul de eroare in caz afirmativ si se elibereaza memoria alocata
+
+Functia mkdir este asemanatoare celei touch , se aloca memorie pentru un nou nod de tip Dir , iar inserarea se face tot
+la finalul listei de directoare. Se verifica daca se doreste crearea unui folder cu un nume deja existent , caz in care 
+se elibereaza memoria alocata nodului Dir si se afiseaza mesajul de eroare corespunzator.
+
+In functia ls , se fac 2 parcurgeri : o parcurgere a listei de directoare si afisarea numelor de foldere si o parcurgere 
+a listei de fisiere si o aifsare a numelor de fisiere.
+
+In functia cd , in primul rand , se verifica daca se doreste schimbarea directorului curent in directorul parinte prin 
+sirul de caractere ".." , caz in care se modifica legaturile intre directoare parent.Apoi , parcurg lista de directoare 
+si daca gasesc numele directorului care trebuie schimbat cu parintele are loc modificarea. Daca in urma parcurgerii listei de 
+directoare , nu se gaseste numele directorului se afiseaza mesajul corespunzator de eroare.
+
+Functia pwd intoarce in mod recursiv un sir de caractere care semnifica calea de la directorul radacina pana la directorul curent.
+Am creat un sir auxiliar s , in care copiez "/" si concatenez directorul curent , pentru a putea pune in p sirul de caractere rezultat
+prin concatenarea lui pwd(target->parent) si s.
+
+Functia tree afiseaza recursiv interiorul directorului curent , respectandu-se formatul din enunt : patru spatii * level + nume 
+fisier/folder.Parcurg lista de directoare , afisez cele 4 spatii si numele directorului curent, urmand a apela recursiv functia prin 
+cresterea nivelului . Pentru afisarea fisierelor , se procedeaza asemanator.
+
+Functia stop are ca scop eliberarea memoriei alocate pentru crearea listei de directoare si listei de fisiere. Prima data , eliberez 
+memoria pentru lista de fisiere din directorul curent , ulterior parcurg lista de directoare , eliberez memoria pentru fisierele din 
+directoare , in final eliberez memoria pentru directoare.
+
+Functia rm sterge fisierul cu numele name primit ca parametru din directorul curent.Parcurg lista de fisiere , daca nu gasesc numele 
+name afisez mesajul de eroare , altfel sterg fisierul, eliberez memoria alocata si refac legaturile intre pointeri.
+
+Functia rmdir este asemanatoare cu functia rm . Parcurg lista de directoare , verific daca exista un folder cu numele name.In caz 
+afirmativ , sterg directorul impreuna cu lista sa de fisiere , eliberez memoria alocata pentru director si lista de fisiere , altfel 
+se afiseaza mesajul de eroare din enunt.
+
+Functia mv schimba oldname cu newname. In primul rand , caut prin directoare si fisiere newname, daca il gasesc pe newname afisez 
+mesajul de eroare : "File/Director already exists\n". Apoi , caut oldname prin lista de directoare si fisere , daca il gasesc pe 
+oldname , atunci realizez schimbarea prin adaugarea directorului/fisierului in lista de directoare/fisiere la final. 
+
+In main , pentru citirea comenzilor ce urmeaza a fi date am considerat 2 tipuri de comenzi: simple , care nu sunt urmate de alte 
+argumente (cum ar fi nume de fisiere/directoare) : pwd, ls, tree  si cele compuse , urmate de nume in cazul comenzilor touch , 
+mkdir, rm, rmdir, cd, mv.Cu strtok am copiat in aux1 si aux2 numele de fisiere/directoare in cazul comenzilor compuse.Comenzile 
+se citesc pana la intalnirea sirul de caractere "stop" , moment in care programul se opreste.In final , are loc apelul pentru 
+eliberarea memoriei alocate si a sirurilor de caractere pentru care s-a alocat memorie in main : comenzi , aux1 si aux2.
